@@ -11,7 +11,7 @@ const Exercise = props => (
 		<td>
 			<Link to={"/edit/"+props.exercise._id}>Edit</Link>
 			|
-			<a href="#" onClick={() => {props.deleteExercise(props.exercise._id)}}>Delete</a>
+			<a href="/" onClick={() => {props.deleteExercise(props.exercise._id)}}>Delete</a>
 		</td>
 	</tr>
 )
@@ -38,16 +38,17 @@ export default class ExercisesList extends Component {
 	}
 
 	deleteExercise(id) {
-		axios.delete('http://localhost:5000/exercises/' + id)
+		axios.delete('http://localhost:5000/exercises/'+id)
 		.then(res => console.log(res.data));
+		
 		this.setState({
 			exercises: this.state.exercises.filter(el => el._id !== id)
 		})
 	}
 
 	exerciseList() {
-		return this.state.exercises.map(currentexercise => {
-			return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id} />
+		return this.state.exercises.map(current => {
+			return <Exercise exercise={current} deleteExercise={this.deleteExercise} key={current._id} />
 		})
 	}
 
