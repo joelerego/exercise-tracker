@@ -9,9 +9,9 @@ const Exercise = props => (
 		<td>{props.exercise.duration} </td>
 		<td>{props.exercise.date.substring(0, 10)} </td>
 		<td>
-			<Link to={"/edit/"+props.exercise._id}>Edit</Link>
-			|
-			<a href="/" onClick={() => {props.deleteExercise(props.exercise._id)}}>Delete</a>
+			<Link to={"/edit/"+props.exercise._id}> Edit </Link>
+			 | 
+			<a href="/" onClick={() => {props.deleteExercise(props.exercise._id)}}> Delete </a>
 		</td>
 	</tr>
 )
@@ -26,10 +26,10 @@ export default class ExercisesList extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('https://localhost:5000/exercises/')
+		axios.get('http://localhost:5000/exercises')
 		.then(response => {
 			this.setState({
-				exercises: response.data
+				exercises: response.data,
 			})
 		})
 		.catch((error) => {
@@ -40,7 +40,7 @@ export default class ExercisesList extends Component {
 	deleteExercise(id) {
 		axios.delete('http://localhost:5000/exercises/'+id)
 		.then(res => console.log(res.data));
-		
+
 		this.setState({
 			exercises: this.state.exercises.filter(el => el._id !== id)
 		})
@@ -48,6 +48,7 @@ export default class ExercisesList extends Component {
 
 	exerciseList() {
 		return this.state.exercises.map(current => {
+			console.log(current);
 			return <Exercise exercise={current} deleteExercise={this.deleteExercise} key={current._id} />
 		})
 	}
